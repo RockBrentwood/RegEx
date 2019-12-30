@@ -1,0 +1,77 @@
+These are software demos and sources for regular expressions -> finite automata conversion and regular language accquisition.
+The programs are written in ANSI-C.
+
+The sources:
+	nfa.c, dfa.c, fsc.c, rex.c
+are respectively for RE→NFA conversion, RE→DFA conversion, a "finite state classifier" solution to the regular language acquisition problem, and the rex regular expression text filter.
+
+The programs are small: at present, 154 lines (fsc.c), 365 lines (nfa.c), 483 lines (dfa.c), 615 lines (rex.c).
+
+Included are descriptions of the various software and (for comparison with rex), the manual section for GNU GREP.
+
+Sample inputs are in the files *.in; outputs in *.ex
+
+The files fa7.in, nfa7.ex illustrate the full syntax of dfa and nfa, and show their limitations relative to a prospective CFG parsing utility (while also showing the potential for use as the basis of one).
+
+The files fa8.in, nfa8.ex illustrate the general solution in 4 variables corresponding to the problem of converting a 4-state finite state automaton into a regular expression.
+Running dfa on it will recover the original automaton back.
+The size of the expression is of the order Q^3 in the number of state Q of the dfa, with the following detailed count:
+	1/3 Q(Q-1)(Q+1) bars, 1/2 Q(Q-1) stars, 1/6 Q(Q-1)(2Q+5) + 1 concatenations, and Q(Q+1) equations.
+illustrated for Q = 4.
+
+The files dfa0.in, dfa1.in and dfa2.in illustrate the first four levels in the approximation series respectively for the languages given as the least fixed point solutions to the following inequalities:
+	dfa0.in: S → [S ^ (a b c)*]	-- a context-sensitive 2-counter language
+	dfa1.in: S → [S ^ (a b)*]	-- the context-free Dyck Language S -> 1 + a S b S
+	dfa2.in: S → [a S ^ (b a)*]	-- (I'm not sure what this one is)
+The automaton for dfa0.in is a *quiver* that has the form triangular grid, with arrows going in the 3 principal directions labelled by a, b and c, such that each a-b-c sequence traverses a loop.
+
+If nfa and dfa were compiled into executables, named nfa and dfa respectively, then the files nfa1.ex and dfa1.ex would be generated as follows:
+                           nfa <fa1.in >nfa1.ex
+                           dfa <fa1.in >dfa1.ex
+The files dfa10.in and dfa11.in contain extended regular expression operators that can only be processed by the dfa program.
+
+The file rex.in lists a regular expression representing all lines consisting of 3 a's and 5 b's.
+Run it on the sample file provided (rex.txt) as follows:
+                        rex -f rex.in rex.txt
+This utility is so powerful that it can find anagrams, as this example illustrates.
+
+Compiling the Programs:
+To compile this package, you will need a C99-conformant C compiler that produces code targeted for hosted environments.
+That includes most contemporary compilers for most mainframes, desktops, laptops and mobile systems.
+
+If using the Makefile, make the appropriate changes to the topmost lines of the file before using it.
+Each program is self-contained and may be compiled separately as a stand-alone program file.
+
+rex.c has a system dependency: it processes wild-cards on the command-line.
+It is set to compile for a POSIX system.
+If working on DOS or Windows, you will need to #define SYSTEM respectively as SYS_DOS or SYS_WIN in the file rex.c.
+
+A host-dependency exists for rex in order to support wildcards.
+You will need to set the SYSTEM flag in the rex.c program appropriately before compiling it.
+The supported systems are SYS_DOS, SYS_WIN and SYS_NIX, respectively for DOS, Windows and UNIX.
+Alternatively, you might need to rewrite the MatchCount() routine in the rex.c program to suit your system and/or compiler.
+Its definition is as follows:
+	MatchCount(P, E) --
+		E == 0: The number of files whose name matches pattern P.
+		E != 0: The number of files with names matching pattern P whose contents match the regular expression E.
+For E != 0, MatchCount also applies rex with expression E to each file whose name matches the wildcard pattern P.
+
+Locations:
+The Site Locations, as of 2007 January 27, were:
+∙	FTP via pardo@cs.washington.edu -- ftp.cs.washington.edu::pub/pardo/regex.tar.Z
+∙	FTP via comp.compilers archive -- iecc.com:pub/files/regex.tar.gz
+∙	FTP via colas.nahaboo@sophia.inria.fr -- avahi.inria.fr:/pub/regex.tar.gz
+As of 2020, they may no longer be valid.
+
+Related Reference:
+[1]	Released on 1997 March 29 by Mark Leisher <mleisher@crl.nmsu.edu>
+	Copyright 1997, 1998, 1999 Computing Research Labs, New Mexico State University
+	Version: 0.5; 1999 September 21
+
+	A filter for Unicode and Regular Expressions:
+	"This is a simple regular expression package for matching against Unicode text in UCS2 form.
+	The implementation of this URE package is a variation on the RE->DFA algorithm done by Mark Hopkins (markh@csd4.csd.uwm.edu).
+	Mark Hopkins' algorithm had the virtue of being very simple, so it was used as a model."
+[2]	TREX-Q: A query language based on XML Schema
+	Brad Penoff, Chris Brew
+	http://xml.coverpages.org/PenoffIRCS.pdf

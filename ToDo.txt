@@ -1,0 +1,137 @@
+The next extension planned includes embedded regular grammars.
+The syntax for regular expressions is expanded to:
+	E → c | x | '(' E ')' | '[' E ']' | E p | E [i] E,
+	E → x '->' E ',' E,		// grammar expression
+	E → x '=' E ',' E,		// substitution operator
+	p: '+' '*' '?',			// postfix operators
+	i: (empty) '|',			// infix operators (the empty operator is concatenation)
+	x: Name/Identifier,		// a C-identifier or "..." quoted-name.
+	c: Literal Constant,		// '0' or '1'
+	E.				// Top-level expression
+The postfix operators +, *, ? bind more tightly than concatenation
+Concatenation binds more tightly than '|'
+The infix operators are right-associative: A B C = A (B C), A | B | C = A | (B | C)
+The substitution operator (x = A, B) only has local scope, therefore,
+	(x = y y, x a) | b x means y y a | b x, not y y a | b y y.
+
+The grammar expressions are processed by taking the largest subexpressions of the form
+	x1 → E_1, x2 → E_2, ..., xn → En, E_0
+and treating this as the simultaneous substitution with the simultaneous fixed point expression
+	(x1,x2,...,xn) = mu (x1,x2,...,xn).(E_1,E_2,...,En), E_0
+Substitutions are understood to have been applied first, before any of this.
+
+In general this yields an expression for a context-free grammar.
+So to restrict this to regular expressions, expressions are divided into 3 categories as follows:
+	Category 0:	Degree 0 polynomials
+	Category 1:	Degree 1 polynomials in which the degree 1 terms are all right-linear.
+	Category 2:	Regular Expressions
+	Category 3:	Context-Free Expressions
+Denoting the respective categories E_0, E_1, E_2 and E_3, the type-matching rules are:
+	Literal Constants:
+		c ⇒ E_0
+	Identifiers
+		x ⇒ E_0, if x is not bound to a substitution or grammar rule
+		x ⇒ E_1, if x is bound to a substitution or grammar rule
+	Products:
+		E_m E_n ⇒ E_3, for m = 3 or n = 3
+		E_m E_n ⇒ E_2, for m = 1 or 2 and n < 3
+		E_0 E_n ⇒ E_n, for n = 0, 1, 2, 3
+	Other infix operators i:
+		E_m i E_n ⇒ E_p, where p = max(m, n)
+	Postfix operators:
+		E_0*, E_0+ ⇒ E_0
+		E_n*, E_n+ ⇒ E_2, for n = 1, 2
+		E_3*, E_3+ ⇒ E_3
+		E_n?, [E_n] ⇒ E_n, for n = 0, 1, 2, 3
+	Substitution Expression:
+		x = E_m, E_n ⇒ E_3, for m = 3 or n = 3
+		x = E_m, E_n ⇒ E_2, for m = 1 or 2 and n < 3
+		x = E_0, E_n ⇒ E_n, for n = 0, 1, 2, 3
+	Grammar Expression:
+		x → E_m, E_n ⇒ E_3, for m = 2 or 3 or n = 3
+		x → E_1, E_n ⇒ E_2, for n < 3
+		x → E_0, E_n ⇒ E_n, for n = 0, 1, 2, 3
+In other words, regular expressions cannot generally be used on the right-hand side of rules in grammar expressions without making the result context-free.
+
+━━━━━━━
+
+Context-Free Expressions
+────────────────────────
+The normal forms used to reduce grammars are:
+∙	The NQ-form
+∙	The LR/LL/RL/RR-canonical forms
+∙	The CS-form
+The NQ form is closely tied to the LR canonical form.
+
+Example:
+Here is the original grammar expression:
+	E → a E | E b E | E c | p E q | o | f p L q | E d E e E,
+	L → | L g E,
+	E.
+Here is the conversion to the "canonical LR" SSDT:
+	E → a E y1 | E b E y2 | E c y3 | p E q y4 | o y5 | f p L q y6 | E d E e E y7,
+	L → y8 | L g E y9,
+	E y0.
+The "R" in "LR" means the y's come at the end (for "L" in "LL" the y's go at the beginning).
+The "L" in "LR" means everything is in the forward direction (as is the case for "LL").
+An RR and RL canonical form would reverse the order of all the rules, with RR being the reversal of LL and RL the reversal of LR.
+
+The alphabets are:
+	Inputs: a b c d e f g o p q
+	Outputs: y0 y1 y2 y3 y4 y5 y6 y7 y8 y9
+
+Here is the conversion to the LR "characteristic" grammar:
+	«E» → a «E y1» | «E b E y2» | «E c y3» | p «E q y4» | o y5 | f p «L q y6» | «E d E e E y7»,
+	«L» → y8 | «L g E y9»,
+	«E y1» → «E» | E y1,
+	«E b E y2» → «E» | E b «E y2»,
+	«E y2» → «E» | E y2,
+	«E c y3» → «E» | E c y3,
+	«E q y4» → «E» | E q y4,
+	«L q y6» → «L» | L q y6,
+	«E d E e E y7» → «E» | E d «E e E y7»,
+	«E e E y7» → «E» | E e «E y7»,
+	«E y7» → «E» | E y7,
+	«L g E y9» → «L» | L g «E y9»,
+	«E y9» → «E» | E y9,
+	«E y0» → «E» | E y0,
+	«E y0».
+Each of the «...»'s are single non-terminals.
+This ia regular grammar over the alphabets
+	Inputs: E L a b c d e f g o p q
+	Outputs: y0 y1 y2 y3 y4 y5 y6 y7 y8 y9
+where E and L are regarded as terminals.
+When the non-terminals are rewritten as states, the grammar assumes the form:
+	q01 → a q03 | q04 | q06 | p q07 | o y5 | f p q08 | q09,
+	q02 → y8 | q12,
+	q03 → q01 | E y1,
+	q04 → q01 | E b q05,
+	q05 → q01 | E y2,
+	q06 → q01 | E c y3,
+	q07 → q01 | E q y4,
+	q08 → q02 | L q y6,
+	q09 → q01 | E d q10,
+	q10 → q01 | E e q11,
+	q11 → q01 | E y7,
+	q12 → q02 | L g q13,
+	q13 → q01 | E y9,
+	q00 → q01 | E y0,
+	q00.
+with q01 = «E» and q02 = «L».
+
+This leads to the reduced system:
+	q00 → q16 + E q07, q07 → q17 + y0,
+	q01 → q16 + E q08, q08 → q17 + y1,
+	q02 → q16 + E q09, q09 → q17 + y2,
+	q03 → q16 + E q10, q10 → q17 + q y4,
+	q04 → q16 + E q11, q11 → q17 + e q05,
+	q05 → q16 + E q12, q12 → q17 + y7,
+	q06 → q16 + E q13, q13 → q17 + y9,
+	q14 → y8 + L q15, q15 → q18 + q y6,
+	q16 → a q01 + p q03 + o y5 + f p q14,
+	q17 → b q02 + c y3 + d q04,
+	q18 → g q06,
+	q00.
+With respect to this revision, the original «E» and «L» are given by:
+	«E» = q16 + E q17
+	«L» = y8 + L q18
