@@ -9,12 +9,12 @@ CompareFA() {
 }
 CompareFSC() {
    ./$1 <$2.in >$2.ex >&$2.lg
-   if ! cmp -s $2.ex Ref/$2.ex; then
-      echo === $2.ex ===
-      diff -d $2.ex Ref/$2.ex
-   else
-      rm $2.ex
-   fi
+#  if ! cmp -s $2.ex Ref/$2.ex; then
+#     echo === $2.ex ===
+#     diff -d $2.ex Ref/$2.ex
+#  else
+#     rm $2.ex
+#  fi
    if ! cmp -s $2.lg Ref/$2.lg; then
       echo === $2.lg ===
       diff -d $2.lg Ref/$2.lg
