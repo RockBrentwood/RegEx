@@ -1,0 +1,4 @@
+v0 = (x = y y, x a) | b x,
+v1 = y y a | b x,
+v2 = y y a | b y y,
+a v0 | b v1 | c v2

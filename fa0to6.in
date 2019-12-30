@@ -1,0 +1,8 @@
+example0 = (0 | 1)+ a* | 1+ [1+ a (b* a)+],
+example1 = a* (b a*)*,
+example2 = (a | b)* a (a | b) (a | b) (a | b) (a | b) (a | b),
+example3 = (a b | b)* b a,
+example4 = (a1 b2 | b3)* b4 a5,
+example5 = ((a0+ b1)* | a2)+ a3 b4* a5,
+example6 = ((a+ b)* | a)+ a b* a,
+"Combined Examples" (x0 example0 | x1 example1 | x2 example2 | x3 example3 | x4 example4 | x5 example5 | x6 example6)
