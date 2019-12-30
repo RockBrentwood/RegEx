@@ -1,0 +1,157 @@
+Searching...
+5 states...
+4 states...
+Solution 1, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q0
+Q3 = [o] + 1 Q4
+Q4 = [x] + 0 Q0 + 1 Q0
+Solution 2, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q0
+Q3 = [o] + 1 Q4 + 0 Q1
+Q4 = [x] + 0 Q0 + 1 Q3
+Solution 3, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q2
+Q3 = 1 Q4
+Q4 = [x] + 0 Q0 + 1 Q0
+Solution 4, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q2
+Q3 = 1 Q4 + 0 Q1
+Q4 = [x] + 0 Q0 + 1 Q3
+Solution 5, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q2
+Q3 = [x] + 1 Q4 + 0 Q4
+Q4 = [x] + 0 Q0 + 1 Q3
+Solution 6, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q2
+Q3 = 1 Q4
+Q4 = [x] + 0 Q2 + 1 Q0
+Solution 7, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q2
+Q3 = 1 Q4 + 0 Q1
+Q4 = [x] + 0 Q2 + 1 Q3
+Solution 8, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q2
+Q3 = [x] + 1 Q4 + 0 Q4
+Q4 = [x] + 0 Q2 + 1 Q3
+Solution 9, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q3
+Q3 = [o] + 1 Q4 + 0 Q0
+Q4 = [x] + 0 Q2 + 1 Q0
+Solution 10, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q3
+Q2 = [o] + 0 Q2 + 1 Q3
+Q3 = [o] + 1 Q4 + 0 Q4
+Q4 = [x] + 0 Q2 + 1 Q0
+Solution 11, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q0
+Q2 = [x] + 0 Q3 + 1 Q0
+Q3 = 0 Q0 + 1 Q4
+Q4 = [o] + 1 Q2 + 0 Q0
+Solution 12, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q0
+Q2 = [x] + 0 Q3 + 1 Q0
+Q3 = 0 Q0 + 1 Q4
+Q4 = [o] + 1 Q2 + 0 Q4
+Solution 13, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q0
+Q2 = [x] + 0 Q3 + 1 Q0
+Q3 = 0 Q0 + 1 Q4
+Q4 = [o] + 1 Q4 + 0 Q3
+Solution 14, 5 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q0
+Q2 = [x] + 0 Q3 + 1 Q0
+Q3 = 0 Q0 + 1 Q4
+Q4 = [o] + 1 Q4 + 0 Q4
+Solution 15, 4 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q2
+Q2 = [o] + 0 Q3 + 1 Q3
+Q3 = [x] + 0 Q0 + 1 Q0
+Solution 16, 4 states
+Q0 = [o] + 0 Q1 + 1 Q2
+Q1 = [x] + 1 Q1 + 0 Q0
+Q2 = [x] + 0 Q3 + 1 Q0
+Q3 = [o] + 0 Q3 + 1 Q3
+Solution 17, 4 states
+Q0 = [o] + 0 Q1 + 1 Q1
+Q1 = [o] + 1 Q2 + 0 Q3
+Q2 = [x] + 1 Q2 + 0 Q1
+Q3 = [o] + 0 Q0 + 1 Q3
+Solution 18, 4 states
+Q0 = [o] + 0 Q1 + 1 Q1
+Q1 = [o] + 1 Q2 + 0 Q3
+Q2 = [x] + 1 Q2 + 0 Q1
+Q3 = [o] + 0 Q3 + 1 Q3
+Solution 19, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = [o] + 1 Q2 + 0 Q0
+Q2 = [x] + 1 Q2 + 0 Q1
+Q3 = [o] + 0 Q0 + 1 Q1
+Solution 20, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = [o] + 1 Q2 + 0 Q0
+Q2 = [x] + 1 Q2 + 0 Q1
+Q3 = [o] + 0 Q0 + 1 Q3
+Solution 21, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = [o] + 1 Q2 + 0 Q3
+Q2 = [x] + 1 Q2 + 0 Q1
+Q3 = [o] + 0 Q0 + 1 Q3
+Solution 22, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = [o] + 1 Q2 + 0 Q0
+Q2 = [x] + 1 Q2 + 0 Q2
+Q3 = [o] + 0 Q0 + 1 Q1
+Solution 23, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = [o] + 1 Q2 + 0 Q0
+Q2 = [x] + 1 Q2 + 0 Q2
+Q3 = [o] + 0 Q0 + 1 Q3
+Solution 24, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = [o] + 1 Q2 + 0 Q3
+Q2 = [x] + 1 Q2 + 0 Q2
+Q3 = [o] + 0 Q0 + 1 Q3
+Solution 25, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = 1 Q2 + 0 Q0
+Q2 = [x] + 1 Q2 + 0 Q1
+Q3 = [o] + 0 Q3 + 1 Q3
+Solution 26, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = 1 Q2 + 0 Q3
+Q2 = [x] + 1 Q2 + 0 Q1
+Q3 = [o] + 0 Q3 + 1 Q3
+Solution 27, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = 1 Q2 + 0 Q0
+Q2 = [x] + 1 Q2 + 0 Q2
+Q3 = [o] + 0 Q3 + 1 Q3
+Solution 28, 4 states
+Q0 = [o] + 0 Q1 + 1 Q3
+Q1 = 1 Q2 + 0 Q3
+Q2 = [x] + 1 Q2 + 0 Q2
+Q3 = [o] + 0 Q3 + 1 Q3

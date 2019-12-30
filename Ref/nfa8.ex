@@ -1,0 +1,16 @@
+Q0 = w0 Q15 | w00 Q0 | w01 Q14 | w03 Q8 | w01 Q7 | w03 Q1 | w03 Q11 | w02 Q10 | w03 Q9 | w03 Q4 | w02 Q3 | w03 Q2 | w02 Q13 | w03 Q12 | w02 Q6 | w03 Q5
+Q1 = w30 Q0 | w33 Q1
+Q2 = w32 Q3 | w33 Q2
+Q3 = w20 Q0 | w23 Q1 | w22 Q3 | w23 Q2
+Q4 = w31 Q7 | w33 Q4
+Q5 = w32 Q6 | w33 Q5
+Q6 = w21 Q7 | w23 Q4 | w22 Q6 | w23 Q5
+Q7 = w10 Q0 | w11 Q7 | w13 Q1 | w13 Q4 | w12 Q3 | w13 Q2 | w12 Q6 | w13 Q5
+Q8 = w3 Q15 | w33 Q8
+Q9 = w32 Q10 | w33 Q9
+Q10 = w2 Q15 | w23 Q8 | w22 Q10 | w23 Q9
+Q11 = w31 Q14 | w33 Q11
+Q12 = w32 Q13 | w33 Q12
+Q13 = w21 Q14 | w23 Q11 | w22 Q13 | w23 Q12
+Q14 = w1 Q15 | w11 Q14 | w13 Q8 | w13 Q11 | w12 Q10 | w13 Q9 | w12 Q13 | w13 Q12
+Q15 = 1

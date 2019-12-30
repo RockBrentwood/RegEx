@@ -1,0 +1,10 @@
+Q0 = a Q3 | b Q2 | c Q1
+Q1 = y Q5 | b Q4
+Q2 = y Q5 | b Q6
+Q3 = y Q5 | b Q6
+Q4 = y Q7
+Q5 = y Q8
+Q6 = x Q9
+Q7 = y Q9
+Q8 = a Q9
+Q9 = 1

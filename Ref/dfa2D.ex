@@ -1,0 +1,20 @@
+Form:
+Q1 = 1 | a Q2 | b Q3
+Q2 = 1 | a Q4 | b Q5
+Q3 = a Q6
+Q4 = 1 | a Q7 | b Q8
+Q5 = a Q2 | b Q9
+Q6 = a Q2 | b Q3
+Q7 = 1 | b Q10
+Q8 = a Q4 | b Q11
+Q9 = a Q12
+Q10 = a Q7 | b Q13
+Q11 = a Q8 | b Q14
+Q12 = a Q15 | b Q9
+Q13 = a Q10 | b Q16
+Q14 = a Q17
+Q15 = a Q4 | b Q12
+Q16 = a Q13
+Q17 = a Q18 | b Q14
+Q18 = a Q19 | b Q17
+Q19 = a Q7 | b Q18
