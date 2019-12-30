@@ -1,0 +1,22 @@
+This is the equational form for an automaton that excludes "aba" and "bab".
+
+It was found by "finite state classifier" on a set of samples comprising all the strings of lengths 1-5 recognized by the prospective automaton.
+	Q0 = a Q1 + b Q2
+	Q1 = [1] + a Q1 + b Q3
+	Q2 = [1] + a Q4 + b Q2
+	Q3 = [1] + a Q5 + b Q2
+	Q4 = [1] + a Q1 + b Q5
+	Q5 = [0] + a Q5 + b Q5
+The final states [0] are those for strings containing "aba" or "bab", while the final states [1] are those for strings not containing these substrings.
+
+If the empty string is included (in class [1]), the minimal automaton is:
+	Q0 = [1] + a Q1 + b Q2
+	Q1 = [1] + a Q1 + b Q3
+	Q2 = [1] + a Q4 + b Q2
+	Q3 = [1] + a Q5 + b Q2
+	Q4 = [1] + a Q1 + b Q5
+	Q5 = [0] + a Q5 + b Q5.
+For class [0], this leads to the solution:
+	(a+b)* (aba + bab) (a+b)*;
+and for class [1], to the solution:
+	1 + aa* (b*bbaaa*)* b* (1 + bba) + bb* (a*aabbb*)* a* (1 + aab).
