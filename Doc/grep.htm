@@ -1,0 +1,172 @@
+<html>
+<head>
+<title>User Command Summary: GREP(1)</title>
+</head>
+<body>
+<p align=justify>
+<b><font size=+1>Name</font></b><br>
+<b>grep</b>, <b>egrep</b> - print lines matching a regular expression
+</p>
+
+<p align=justify>
+<b><font size=+1>Synopsis</font></b><br>
+<b>grep</b> [-CVbchilnsvwx] [-<i>Num</i>] [-AB <i>Num</i>] [[-e] <i>Exp</i> | -f <i>File</i>] <i>Files...</i>
+</p>
+
+<p align=justify>
+<b><font size=+1>Description</font></b><br>
+Grep searches the files listed in the arguments (or standard input if no files
+are given) for all lines that contain a match for the given expr. If any lines
+match, they are printed.
+</p>
+
+<p align=justify>
+Also, if any matches were found, grep will exit with a status of 0, but if no
+matches were found it will exit with a status of 1. This is useful for
+building shell scripts that use grep as a condition for, for example, the if
+statement.
+</p>
+
+<p align=justify>
+When invoked as egrep the syntax of the expr is slightly different; See below.
+</p>
+
+<table><tbody>
+<tr><th colSpan=3>Regular Expression Syntax</th></tr>
+<tr align=left><th>grep</th><th>egrep</th><th>explanation</th></tr>
+<tr><td>c</td><td>c</td><td><p align=justify>a single (non-meta) character matches itself.</p></td></tr>
+<tr><td>.</td><td>.</td><td><p align=justify>matches any single character except newline.</p></td></tr>
+<tr><td>\?</td><td>?</td><td><p align=justify>postfix operator; preceeding item is optional.</p></td></tr>
+<tr><td>*</td><td>*</td><td><p align=justify>postfix operator; preceeding item 0 or more times.</p></td></tr>
+<tr><td>\+</td><td>+</td><td><p align=justify>postfix operator; preceeding item 1 or more times.</p></td></tr>
+<tr><td>\|</td><td>|</td><td><p align=justify>infix operator; matches either argument.</p></td></tr>
+<tr><td>^</td><td>^</td><td><p align=justify>matches the empty string at the beginning of a line.</p></td></tr>
+<tr><td>$</td><td>$</td><td><p align=justify>matches the empty string at the end of a line.</p></td></tr>
+<tr><td>\<</td><td>\<</td><td><p align=justify>matches the empty string at the beginning of a word.</p></td></tr>
+<tr><td>\></td><td>\></td><td><p align=justify>matches the empty string at the end of a word.</p></td></tr>
+<tr><td>[chars]</td><td>[chars]</td><td><p align=justify>match any character in the given class; if the first character after [ is ^, match any character not in the given class; a range of characters may be specified by first-last; for example, \W (below) is equivalent to the class [^A-Za-z0-9]</p></td></tr>
+<tr><td>\( \)</td><td>( )</td><td><p align=justify>parentheses are used to override operator precedence.</p></td></tr>
+<tr><td>\digit</td><td>\digit</td><td><p align=justify>\n matches a repeat of the text matched earlier in the regexp by the subexpression inside the nth opening parenthesis.</p></td></tr>
+<tr><td>\</td><td>\</td><td><p align=justify>any special character may be preceded by a backslash to match it literally.</p></td></tr>
+<tr><td colSpan=3><i>The following are for compatibility with GNU Emacs</i></td></tr>
+<tr><td>\b</td><td>\b</td><td><p align=justify>matches the empty string at the edge of a word.</p></td></tr>
+<tr><td>\B</td><td>\B</td><td><p align=justify>matches the empty string if not at the edge of a word.</p></td></tr>
+<tr><td>\w</td><td>\w</td><td><p align=justify>matches word-constituent characters (letters & digits).</p></td></tr>
+<tr><td>\W</td><td>\W</td><td><p align=justify>matches characters that are not word-constituent.</p></td></tr>
+</tbody></table>
+
+<p align=justify>
+Operator precedence is (highest to lowest) ?, *, and +, concatenation, and
+finally |. All other constructs are syntactically identical to normal
+characters. For the truly interested, the file dfa.c describes (and
+implements) the exact grammar understood by the parser.
+</p>
+
+<table><tbody>
+<tr><th colSpan=2>Command Options</th></tr>
+<tr><td>-A <i>N</i></td><td>print <i>N</i> lines of context after every matching line</td></tr>
+<tr><td>-B <i>N</i></td><td>print <i>N</i> lines of context before every matching line</td></tr>
+<tr><td>-C</td><td>print 2 lines of context on each side of every match</td></tr>
+<tr><td>-<i>N</i></td><td>print <i>N</i> lines of context on each side of every match</td></tr>
+<tr><td>-V</td><td>print the version number on the diagnostic output</td></tr>
+<tr><td>-b</td><td>print every match preceded by its byte offset</td></tr>
+<tr><td>-c</td><td>print a total count of matching lines only</td></tr>
+<tr><td>-e <i>E</i></td><td>search using the expression <i>E</i>; useful if <i>E</i> begins with -</td></tr>
+<tr><td>-f <i>F</i></td><td>search for the expression contained in file <i>F</i></td></tr>
+<tr><td>-h</td><td>don't display filenames on matches</td></tr>
+<tr><td>-i</td><td>ignore case difference when comparing strings</td></tr>
+<tr><td>-l</td><td>list files containing matches only</td></tr>
+<tr><td>-n</td><td>print each match preceded by its line number</td></tr>
+<tr><td>-s</td><td>run silently producing no output except error messages</td></tr>
+<tr><td>-v</td><td>print only lines that contain no matches for the <expr></td></tr>
+<tr><td>-w</td><td>print only lines where the match is a complete word</td></tr>
+<tr><td>-x</td><td>print only lines where the match is a whole line</td></tr>
+</tbody></table>
+
+<p align=justify>
+<b><font size=+1>See Also</font></b><br>
+emacs(1), ed(1), sh(1), GNU Emacs Manual
+</p>
+
+<p align=justify>
+<b><font size=+1>Incompatibilities</font></b><br>
+The following incompatibilities with UNIX grep exist:
+<li>The context-dependent meaning of * is not quite the same (grep only).</li>
+<li>-b prints a byte offset instead of a block offset.</li>
+<li>The {m,n} construct of System V grep is not implemented.</li>
+</p>
+
+<p align=justify>
+<b><font size=+1>Bugs</font></b><br>
+GNU e?grep has been thoroughly debugged and tested by several people over a
+period of several months; we think it's a reliable beast or we wouldn't
+distribute it. If by some fluke of the universe you discover a bug, send a
+detailed description (including options, regular expressions, and a copy of an
+input file that can reproduce it) to me, mike@wheaties.ai.mit.edu.
+</p>
+
+<p align=justify>
+There is also a newsgroup, gnu.utils.bug, for reporting FSF utility programs'
+bugs and fixes; but before reporting something as a bug, please try to be sure
+that it really is a bug, not a misunderstanding or a deliberate feature. Also,
+include the version number of the utility program you are running in every bug
+report that you send in. Please do not send anything but bug reports to this
+newsgroup.
+</p>
+
+<p align=justify>
+<b><font size=+1>Availability</font></b><br>
+GNU grep is free; anyone may redistribute copies of grep to anyone under the
+terms stated in the GNU General Public License, a copy of which may be found
+in each copy of GNU Emacs. See also the comment at the beginning of the source
+code file grep.c.
+</p>
+
+<p align=justify>
+Copies of GNU grep may sometimes be received packaged with distributions of
+Unix systems, but it is never included in the scope of any license covering
+those systems. Such inclusion violates the terms on which distribution is
+permitted. In fact, the primary purpose of the General Public License is to
+prohibit anyone from attaching any other restrictions to redistribution of any
+of the Free Software Foundation programs.
+</p>
+
+<p align=justify>
+<b><font size=+1>Authors</font></b><br>
+Mike Haertel wrote the deterministic regexp code and the bulk of the program.
+</p>
+
+<p align=justify>
+James A. Woods is responsible for the hybridized search strategy of using
+Boyer-Moore-Gosper fixed-string search as a filter before calling the general
+regexp matcher.
+</p>
+
+<p align=justify>
+Arthur David Olson contributed code that finds fixed strings for the
+aforementioned BMG search for a large class of regexps.
+</p>
+
+<p align=justify>
+Richard Stallman wrote the backtracking regexp matcher that is used for \digit
+backreferences, as well as the getopt that is provided for 4.2BSD sites. The
+backtracking matcher was originally written for GNU Emacs.
+</p>
+
+<p align=justify>
+D. A. Gwyn wrote the C alloca emulation that is provided so System V machines
+can run this program. (Alloca is used only by RMS' backtracking matcher, and
+then only rarely, so there is no loss if your machine doesn't have a "real"
+alloca.)
+</p>
+
+<p align=justify>
+Scott Anderson and Henry Spencer designed the regression tests used in the
+"regress" script.
+</p>
+
+<p align=justify>
+Paul Placeway wrote the original version of this manual page.
+</p>
+</body>
+</html>

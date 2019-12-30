@@ -1,0 +1,69 @@
+On Tuesday, September 9, 2014 4:26:07 PM UTC-5, wyse...@gmail.com wrote:
+> Going back to this topic, tks for the updates. The non-deterministic
+> FSM seems to be the best approach indeed. Your rex tool seems to be
+> suited to my needs, but I couldn't find it anywhere either. Do you
+> suggest anything else?
+
+To follow up on my earlier reply -- which I didn't finish -- I spent some time rewriting and adding a little to the source for the code. Given time I'll put up a version maybe on SourceForge or maybe as a PDF embedded in the written narrative over on Scribd. (Or maybe even post the source here, later.)
+
+A description follows below. As for the original query -- relating this to the code described below -- if you're seeking to process FSM's (with *both* input and output), the same reductions apply ... initially ... as what the software will do. In general, you'll get a matrix system of the form
+   S -> i q
+   q -> f | X q | Y q
+where q and f are column n-vectors (a being 0/1 valued), i a row n-vector (also 0/1 valued), X and Y are n x n matrices of the form X = sum (x X_x) summed over all input symbols x, with each X_x being 0-1 valued and Y defined similarly sum (y Y_y) summed over all output symbols y. The resulting subset would just be
+   S = i (X | Y)* f.
+
+In general, you can NOT get a deterministic FSM out of this, because there may be multiple outputs for a given input. However, what you *can* do is write down something in "quasi-deterministic" form
+   q -> Y* f | Y* X q = Y* f | (sum_x x Y* X_x) q
+This associates a regular subset of the outputs Y* f with the end symbol, and regular subsets Y* X_x with each input symbol x in matrix form.
+
+This reduces the above expression to the form
+   S = i (sum_x Y* X_x x)* Y* f
+
+The result is an idempotent power series over the monoid of input words. If you had a word x_0 x_1 ... x_m, the outputs would be given by the regular expression
+   i Y* X_{x_0} Y* X_{x_1} ... Y* X_{x_m} Y* f.
+
+However, to obtain in explicit form would require a routine for converting back all the Y expressions back from matrix or automata form to regular expression form. I haven't written any FSA -> RE converter. The complexity is n^3 for such a reduction (although it may be of smaller complexity if the substitution operator -- described below -- is used).
+
+These are the routines I have:
+FSC.c (about 150 lines) is a finite state classifier. It takes input like this
+0a
+0ba
+1bb
+0aab
+where the first character on each line indicates the word class and produces the smallest FSAs that correctly classifies the given examples.
+
+REX.c (about 650 lines) is functionally superior to GREP -- it handles Boolean operators as well as the interleave operator, in addition to the Kleene-algebraic regular expression operators.
+
+NFA.c and DFA.c are respectively about 350 and 450 lines and process regular expressions in the format:
+
+Ex -> '(' Ex ')'
+Ex -> '[' Ex ']'
+Ex -> Ex p
+Ex -> Ex [i] Ex,
+Ex -> x '=' Ex ',' Ex,	// substitution operator
+Ex -> Name/Identifier,	// a C-identifier or "..." quoted-name.
+Ex -> Literal Constant,	// '0' or '1'
+
+The postfix operators (p) are the Kleene star "*", the 1-or-more "+", the 0-or-1 "?" (so that E? is synonymous with [E]).
+
+The infix operators are "|" and the (empty) operator for concatenation. For DFA, they also include "&" for intersection, "-" for set subtraction, "^" for interleave.
+
+The substitution operator (x = A, B) has local scope, therefore,
+	(x = y y, x a) | b x
+means y y a | b x, not y y a | b y y.
+
+For instance, the input,
+S = 0,
+S = [S ^ (a b)*],
+S = [S ^ (a b)*],
+S = [S ^ (a b)*],
+S = [S ^ (a b)*],
+S
+is a regular expression for handling the context-free subset given by the grammar S -> 1 | a S b S up to 4 levels of recursion, while this one
+S = 0,
+S = [S ^ (a b c)*],
+S = [S ^ (a b c)*],
+S = [S ^ (a b c)*],
+S = [S ^ (a b c)*],
+S
+is a 4-level approximation for the language given by S -> 1 | S ^ (a b c)*, which is context-sensitive, but not context-free.
