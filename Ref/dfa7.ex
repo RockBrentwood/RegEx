@@ -1,4 +1,3 @@
-Form:
 Q1 = ( Q2 | E Q3 | u Q4 | x Q5
 Q2 = E Q6
 Q3 = ( Q7 | [ Q8 | b Q9 | p Q10

@@ -1,4 +1,3 @@
-Form:
 Q1 = w0 Q2 | w00 Q1 | w01 Q3 | w02 Q4 | w03 Q5
 Q2 = 1
 Q3 = w1 Q2 | w10 Q1 | w11 Q3 | w12 Q4 | w13 Q5

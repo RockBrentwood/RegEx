@@ -1,4 +1,3 @@
-Form:
 Q1 = a Q2 | b Q2 | c Q3
 Q2 = b Q4 | y Q5
 Q3 = b Q6 | y Q5
