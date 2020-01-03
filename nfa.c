@@ -76,13 +76,13 @@ typedef struct Exp *Exp;
 
 void *Allocate(unsigned Bytes) {
    void *X = malloc(Bytes);
-   if (X == 0) printf("Out of memory.\n"), exit(EXIT_FAILURE);
+   if (X == NULL) printf("Out of memory.\n"), exit(EXIT_FAILURE);
    return X;
 }
 
 void *Reallocate(void *X, unsigned Bytes) {
-   X = X == 0? malloc(Bytes): realloc(X, Bytes);
-   if (X == 0) printf("Out of memory.\n"), exit(EXIT_FAILURE);
+   X = X == NULL? malloc(Bytes): realloc(X, Bytes);
+   if (X == NULL) printf("Out of memory.\n"), exit(EXIT_FAILURE);
    return X;
 }
 
@@ -121,8 +121,8 @@ int Join(int A, int B) {
 
 Var MakeVar(char *Name) {
    int H = 0x100 + Hash(Name); Var E = ETab[H];
-   for (; E != 0; E = E->Tail) if (strcmp(Name, E->Body.Leaf) == 0) break;
-   if (E == 0) {
+   for (; E != NULL; E = E->Tail) if (strcmp(Name, E->Body.Leaf) == 0) break;
+   if (E == NULL) {
       Exp X = Allocate(sizeof *X);
       X->Hash = H, X->Q = -1, X->Mark = 0, X->Stack = 0;
       X->Value = E = (Var)Allocate(sizeof *E);
@@ -139,7 +139,7 @@ Exp MakeExp(Exp X, char Tag, ...) {
       case 'x':
          Name = va_arg(AP, char *);
          H = 0x100 + Hash(Name); Args = 0;
-         for (E = ETab[H]; E != 0; E = E->Tail) if (strcmp(Name, E->Body.Leaf) == 0) break;
+         for (E = ETab[H]; E != NULL; E = E->Tail) if (strcmp(Name, E->Body.Leaf) == 0) break;
       break;
       case '0': case '1':
          Args = 0;
@@ -150,18 +150,18 @@ Exp MakeExp(Exp X, char Tag, ...) {
          Args = 1, X0 = va_arg(AP, Exp);
          H = X0->Hash;
          H = Tag == '+'? 0x02 + H*0x0a/0x200: Tag == '*'? 0x0c + H*0x14/0x200: 0x20 + H/0x10;
-         for (E = ETab[H]; E != 0; E = E->Tail) if (X0 == E->Body.Arg[0]) break;
+         for (E = ETab[H]; E != NULL; E = E->Tail) if (X0 == E->Body.Arg[0]) break;
       break;
       case '|': case '.':
          Args = 2, X0 = va_arg(AP, Exp), X1 = va_arg(AP, Exp);
          H = Join(X0->Hash, X1->Hash);
          H = Tag == '|'? 0x40 + H/8: 0x80 + H/4;
-         for (E = ETab[H]; E != 0; E = E->Tail) if (X0 == E->Body.Arg[0] && X1 == E->Body.Arg[1]) break;
+         for (E = ETab[H]; E != NULL; E = E->Tail) if (X0 == E->Body.Arg[0] && X1 == E->Body.Arg[1]) break;
       break;
    }
    va_end(AP);
-   if (E == 0) {
-      if (X == 0) {
+   if (E == NULL) {
+      if (X == NULL) {
          X = Allocate(sizeof *X);
          X->Hash = H, X->Q = -1, X->Mark = 0, X->Stack = 0;
       }
@@ -174,7 +174,7 @@ Exp MakeExp(Exp X, char Tag, ...) {
          if (Args > 1) E->Body.Arg[1] = X1;
       }
       E->Hash = H, E->Tail = ETab[H], ETab[H] = E;
-   } else if (X != 0 && X != E->Class) X->Value = E, E->Class = X;
+   } else if (X != NULL && X != E->Class) X->Value = E, E->Class = X;
    return E->Class;
 }
 
@@ -224,7 +224,7 @@ Exp Parse(void) {
 Start:
    switch (L) {
       case '(': case '[': Enter(L), L = Scan(); goto Start;
-      case '0': case '1': X = MakeExp(0, L), L = Scan(); goto Reduce;
+      case '0': case '1': X = MakeExp(NULL, L), L = Scan(); goto Reduce;
       case 'x':
          E = MakeVar(LastW);
          if ((L = Scan()) != '=') { X = E->Class; goto Reduce; }
@@ -249,14 +249,14 @@ Reduce:
       case '[':
          if (L == ')') Error("[ ... )."), L = Scan();
          else if (L == ']') L = Scan(); else Error("Extra [.");
-         X = MakeExp(0, '?', X);
+         X = MakeExp(NULL, '?', X);
       goto Reduce;
-      case '|': case '.': X = MakeExp(0, *SP, *RSP, X); goto Reduce;
+      case '|': case '.': X = MakeExp(NULL, *SP, *RSP, X); goto Reduce;
    }
 Shift:
    switch (L) {
       case ',': case ')': case ']': case '=': Error("Extra '%c'.", L); L = Scan(); goto Reduce;
-      case '+': case '*': case '?': X = MakeExp(0, L, X), L = Scan(); goto Reduce;
+      case '+': case '*': case '?': X = MakeExp(NULL, L, X), L = Scan(); goto Reduce;
       case '|': Enter('|', X), L = Scan(); goto Start;
       default: Enter('.', X); goto Start;
    }
@@ -291,15 +291,15 @@ void FormState(Exp X) {
          Var E = X->Value;
          if (X->Mark) { Pop(); continue; }
          switch (E->Tag) {
-         // x = x 1, 0 and 1 are normal forms: mark, pop and (for x) add 1 as a state.
-            case 'x': AddState(MakeExp(0, '1'));
+         // x => x 1, 0 and 1 are normal forms: mark, pop and (for x) add 1 as a state.
+            case 'x': AddState(MakeExp(NULL, '1'));
             case '1': case '0': X->Mark = 1; Pop(); break;
          // A? => 1 | A
-            case '?': MakeExp(X, '|', MakeExp(0, '1'), E->Body.Arg[0]); break;
+            case '?': MakeExp(X, '|', MakeExp(NULL, '1'), E->Body.Arg[0]); break;
          // A+ => A (1 | A+)
-            case '+': MakeExp(X, '.', E->Body.Arg[0], MakeExp(0, '|', MakeExp(0, '1'), X)); break;
+            case '+': MakeExp(X, '.', E->Body.Arg[0], MakeExp(NULL, '|', MakeExp(NULL, '1'), X)); break;
          // A* => 1 | A A*
-            case '*': MakeExp(X, '|', MakeExp(0, '1'), MakeExp(0, '.', E->Body.Arg[0], X)); break;
+            case '*': MakeExp(X, '|', MakeExp(NULL, '1'), MakeExp(NULL, '.', E->Body.Arg[0], X)); break;
          // A | B is a head normal form: mark and push A and B
             case '|': X->Mark = 1, Push(E->Body.Arg[0]), Push(E->Body.Arg[1]); break;
          // A B => (... based on the structure of A ...)
@@ -313,15 +313,15 @@ void FormState(Exp X) {
                // 0 B => 0
                   case '0': MakeExp(X, '0'); break;
                // C? B => B | C B
-                  case '?': MakeExp(X, '|', XB, MakeExp(0, '.', EA->Body.Arg[0], XB)); break;
+                  case '?': MakeExp(X, '|', XB, MakeExp(NULL, '.', EA->Body.Arg[0], XB)); break;
                // C+ B => C (B | C+ B)
-                  case '+': MakeExp(X, '.', EA->Body.Arg[0], MakeExp(0, '|', XB, X)); break;
+                  case '+': MakeExp(X, '.', EA->Body.Arg[0], MakeExp(NULL, '|', XB, X)); break;
                // C* B =>  B | C (C* B)
-                  case '*': MakeExp(X, '|', XB, MakeExp(0, '.', EA->Body.Arg[0], X)); break;
+                  case '*': MakeExp(X, '|', XB, MakeExp(NULL, '.', EA->Body.Arg[0], X)); break;
                // (C | D) B => C B | D B
-                  case '|': MakeExp(X, '|', MakeExp(0, '.', EA->Body.Arg[0], XB), MakeExp(0, '.', EA->Body.Arg[1], XB)); break;
+                  case '|': MakeExp(X, '|', MakeExp(NULL, '.', EA->Body.Arg[0], XB), MakeExp(NULL, '.', EA->Body.Arg[1], XB)); break;
                // (C D) B => C (D B)
-                  case '.': MakeExp(X, '.', EA->Body.Arg[0], MakeExp(0, '.', EA->Body.Arg[1], XB)); break;
+                  case '.': MakeExp(X, '.', EA->Body.Arg[0], MakeExp(NULL, '.', EA->Body.Arg[1], XB)); break;
                }
             }
             break;
@@ -339,7 +339,7 @@ void WriteStates(void) {
             case '0': break;
             case '1': printf(" 1"); break;
             case 'x': {
-               Exp X = MakeExp(0, '1'); printf(" %s Q%d", E->Body.Leaf, X->Q);
+               Exp X = MakeExp(NULL, '1'); printf(" %s Q%d", E->Body.Leaf, X->Q);
             }
             break;
             case '|': Push(E->Body.Arg[0]), Push(E->Body.Arg[1]); break;
@@ -359,7 +359,7 @@ void WriteStates(void) {
 int main(void) {
    Exp X = Parse();
    if (Errors > 0) fprintf(stderr, "%d error(s)\n", Errors);
-   if (X == 0) return EXIT_FAILURE;
+   if (X == NULL) return EXIT_FAILURE;
    FormState(X); WriteStates();
    return EXIT_SUCCESS;
 }

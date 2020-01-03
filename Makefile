@@ -1,6 +1,7 @@
 ## === System configuration begin. === ##
 ## Executable file suffix: X=.exe for Windows and DOS
 X=
+B=.sh
 ## Compiler
 CC= gcc
 ## Compiler flags
@@ -13,17 +14,17 @@ RM=rm -f
 Apps=dfa$X nfa$X fsc$X rex$X
 
 all: $(Apps)
-dfa:
+dfa$X: dfa.c
 	$(CC) $(CFLAGS) dfa.c -o dfa$X
-nfa:
+nfa$X: nfa.c
 	$(CC) $(CFLAGS) nfa.c -o nfa$X
-fsc:
+fsc$X: fsc.c
 	$(CC) $(CFLAGS) fsc.c -o fsc$X
-rex:
+rex$X: rex.c
 	$(CC) $(CFLAGS) rex.c -o rex$X
 
 test: $(Apps)
-	$(SH) test.sh
+	$(SH) test$B
 clean:
 	$(RM) *.ex
 	$(RM) *.lg

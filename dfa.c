@@ -327,7 +327,6 @@ void AddTerm(Symbol X, Exp Q) {
 }
 
 void FormStates(Exp E) {
-printf("Form:");
    Exp A, B; int AX, BX;
    STab = 0, Ss = 0; AddState(GetExp('0')); AddState(E);
    TList = 0, TMax = 0;
@@ -404,7 +403,6 @@ printf("Form:");
       for (int I = 0; I < E->Terms; I++) AddState(E->Sum[I].Q);
    }
    free(XStack), XMax = 0; free(TList), TMax = 0;
-putchar('\n');
 }
 
 static struct Equiv { Exp L, R; } *ETab; int Es, EMax;
